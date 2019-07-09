@@ -47,8 +47,95 @@ that's fine, as long as there is nothing happening after stop other than
 printing the contents of answerStrings
 '''
 start=datetime.now()
+#----------------------------------------------------------
+#----BST MAP----------------------------------------------
 
+class Node:
+    def __init__(self, data) :
+        '''Initialize Node with data.'''
+        self.data = data
+        self.left = None
+        self.right = None
+    def __str__(self) :
+        '''Return string representation of data.'''
+        return str(self.data)
+
+class KVPair:
+    def __init__(self, key, value) :
+        self.key   = key
+        self.value = value
+
+    def __lt__(self, other) :
+        if self.key < other.key:
+            return True
+        return False
+
+    def __le__(self, other) :
+        if self.key <= other.key:
+            return True
+        return False
+
+    def __gt__(self, other) :
+        if self.key > other.key:
+            return True
+        return False
+
+    def __ge__(self, other) :
+        if self.key >= other.key:
+            return True
+        return False
+
+    def __eq__(self, other) :
+        if self.key == other.key:
+            return True
+        return False
+
+    def __ne__(self, other) :
+        if self.key != other.key:
+            return True
+        return False
+
+class TreeSet:
+    def __init__(self):
+        self.__root = None
+
+    def insert(self,phrase):
+        self.__root = self.__insert(self.__root,phrase)
+
+    def __insert(self,refNode,phrase):
+        if (refNode==None): #Base Case:empty spot
+            newNode = Node(phrase)
+            return newNode
+        if (refNode.data == phrase): #Base Case: Already in BST
+            return refNode
+        if (phrase<refNode.data):
+            refNode.left = self.__insert(refNode.left,phrase)
+        else:
+            refNode.right = self.__insert(refNode.right,phrase)
+        return refNode
+
+    def __contains__(self,phrase):
+        return self.__contains(self.__root,phrase)
+
+    def __contains(self,refNode,phrase):
+        if (refNode==None): #BASE CASE: EMPTY SPOT
+            return None
+        elif (refNode.data == phrase):
+            return True
+        if (phrase<refNode.data):
+            return self.__contains(refNode.left,phrase)
+        elif (phrase>refNode.data):
+            return self.__contains(refNode.right,phrase)
+        else:
+            return False
+
+
+
+
+
+#-----------------------------------------------------------
 stop=datetime.now()
 for answers in answerStrings:
   print(answers)
 print("Runtime:",stop-start)
+
