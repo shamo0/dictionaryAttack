@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 from datetime import datetime
+from bst import *
+
 import sys
 
 def usage():
@@ -47,9 +49,24 @@ that's fine, as long as there is nothing happening after stop other than
 printing the contents of answerStrings
 '''
 start=datetime.now()
-#----------------------------------------------------------
-#----BST MAP----------------------------------------------
+#---------------------------------------------------------
+#Using a built in map
+# dictTable = {}
+# dictHashpass = {}
 
+# for pair in table:
+#     splitPair=pair.split('\t')
+#     dictTable[splitPair[1]] =splitPair[0]
+#
+# for pair in computedHashes:
+#     splitPair=pair.split(" ")
+#     dictHashpass[splitPair[0]] = splitPair[1]
+# for key in dictTable:
+#     if key in dictHashpass:
+#         answerStrings.append(str(dictTable[key])+" "+key)
+
+#-------------------------------------------------------------
+#----------------BST-MAP--------------------------------------
 class Node:
     def __init__(self, data) :
         '''Initialize Node with data.'''
@@ -62,6 +79,7 @@ class Node:
 
 class KVPair:
     def __init__(self, key, value) :
+        # print("test")
         self.key   = key
         self.value = value
 
@@ -99,41 +117,54 @@ class TreeSet:
     def __init__(self):
         self.__root = None
 
-    def insert(self,phrase):
-        self.__root = self.__insert(self.__root,phrase)
+    def insert(self,key):
+        self.__root = self.__insert(self.__root,key)
 
-    def __insert(self,refNode,phrase):
+    def __insert(self,refNode,key):
         if (refNode==None): #Base Case:empty spot
-            newNode = Node(phrase)
-            return newNode
-        if (refNode.data == phrase): #Base Case: Already in BST
+            return key
+        if (refNode.data.key == key.data.key): #Base Case: Already in BST
             return refNode
-        if (phrase<refNode.data):
-            refNode.left = self.__insert(refNode.left,phrase)
+        if (key.data.key<refNode.data.key):
+            refNode.left = self.__insert(refNode.left,key)
         else:
-            refNode.right = self.__insert(refNode.right,phrase)
+            refNode.right = self.__insert(refNode.right,key)
         return refNode
 
-    def __contains__(self,phrase):
-        return self.__contains(self.__root,phrase)
+    def __contains__(self,key):
+        return self.__contains(self.__root,key)
 
-    def __contains(self,refNode,phrase):
+    def __contains(self,refNode,key):
         if (refNode==None): #BASE CASE: EMPTY SPOT
             return None
-        elif (refNode.data == phrase):
+        elif (refNode.data.key == key):
             return True
-        if (phrase<refNode.data):
-            return self.__contains(refNode.left,phrase)
-        elif (phrase>refNode.data):
-            return self.__contains(refNode.right,phrase)
+        if (key<refNode.data.key):
+            return self.__contains(refNode.left,key)
+        elif (key>refNode.data.key):
+            return self.__contains(refNode.right,key)
         else:
             return False
 
+BinTree = TreeSet()
+for pair in computedHashes:
+    # print(pair)
+    splitPair=pair.split(" ")
+    pairKV = KVPair(splitPair[0],splitPair[1])
+    # print(pairKV)
+    nodeToInsert = Node(pairKV)
+    # print(nodeToInsert)
+    BinTree.insert(nodeToInsert)
+#
+for pair in table:
+    splitPair=pair.split('\t')
+    if (splitPair[1] in BinTree):
+        answerStrings.append(splitPair[1]+" "+splitPair[0])
 
 
 
 
-#-----------------------------------------------------------
+#------------------------------------------------------------
 stop=datetime.now()
 for answers in answerStrings:
   print(answers)
