@@ -37,17 +37,7 @@ except:
 
 answerStrings=[]
 
-'''
-At this point, the list computedHashes contains every line of our precomputed
-hashes, the list table contains every line of our username-hash file, and (if
-you included this argument) the list counts contains the number of times each
-password appears.  The rest of your code goes between the declaration of the
-variables "start" and "stop."  Rather than printing your solution, append what
-you want to print into a list "answerStrings," for display after the clock has
-stopped.  If you want to change answerStrings to something other than a list,
-that's fine, as long as there is nothing happening after stop other than
-printing the contents of answerStrings
-'''
+
 start=datetime.now()
 #---------------------------------------------------------
 '''Using a built in dictionary'''
